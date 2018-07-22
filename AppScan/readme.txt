@@ -1,4 +1,19 @@
 AppScan使用教程
+  1.安装与破解 
+   IBM官方下载;http://download2.boulder.ibm.com ... 2-AppScan_Setup.exe
+    本连接为7.8 简体中文版本的
+   破解补丁；http://www.vdisk.cn/down/index/4760606A4753
+     破解补丁中有相应的注册机与破解步骤，生成注册码做一下替换就OK了，这里不细说
+   这个版本还是偏老
+  2.简单的图文教程：参照这篇博文：http://www.cnblogs.com/fnng/archive/2012/10/09/2717568.html
+  总体来说，AppScan的使用比较傻瓜式
+  
+AppScan的工作原理：
+ 1）通过探索（爬行）发现整个Web应用结构
+ 2）根据分析，发送修改的Http Request进行攻击尝试（扫描规则库）
+ 3）通过对于Response的分析验证是否存在安全漏洞。
+ 
+  主要来讲下如何分析AppScan的扫描结果，毕竟大部分扫描的结果均是误报的情况比较多
 
  1.先看【推理】，了解判断该处为漏洞的原理，方便研究问题是否误报，问题如何解决
  2.再看【差异】，差异中描述的是AppScan对原始的request做了哪些改动，帮助理解其推理过程。
