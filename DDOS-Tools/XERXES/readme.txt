@@ -8,3 +8,5 @@ Open Terminal and type these commands
 cd Desktop
 gcc xerxes.c -o xerxes
 USAGE : ./xerxes www.fakesite.com 80
+也可以 sudo mv xerxes /usr/local/bin
+这样直接输入xerxes www.fakesite.com 80
