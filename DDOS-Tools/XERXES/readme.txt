@@ -10,3 +10,4 @@ gcc xerxes.c -o xerxes
 USAGE : ./xerxes www.fakesite.com 80
 也可以 sudo mv xerxes /usr/local/bin
 这样直接输入xerxes www.fakesite.com 80
+  http端口一般80端口，如果是https需要改成443
