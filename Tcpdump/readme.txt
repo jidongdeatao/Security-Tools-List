@@ -1,3 +1,12 @@
+tcpdump 很详细的
+http://blog.chinaunix.net/uid-11242066-id-4084382.html
+http://www.cnblogs.com/ggjucheng/archive/2012/01/14/2322659.html
+Linux tcpdump命令详解
+Tcpdump usage examples（推荐）
+http://www.rationallyparanoid.com/articles/tcpdump.html
+使用TCPDUMP抓取HTTP状态头信息
+http://blog.sina.com.cn/s/blog_7475811f0101f6j5.html
+
 简介；
 网络数据包截获分析工具。支持针对网络层、协议、主机、网络或端口的过滤。并提供and、or、not等逻辑语句帮助去除无用的信息。
 
