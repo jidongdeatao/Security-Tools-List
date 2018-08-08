@@ -9,7 +9,7 @@ ARP毒化工具：Arpspoof
 WEB安全扫描工具：AppScan
 WEB渗透工具：Burpsuite
 XSS漏洞检测工具：BruteXSS、XSSer
-
+二进制/源码静态扫描工具：Checkmarx、Woodpecker、codeDEX
 
 
 渗透流程：
