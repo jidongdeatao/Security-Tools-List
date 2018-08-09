@@ -14,3 +14,5 @@ DirBuster是用来探测web服务器上的目录和隐藏文件的。因为DirBu
 
 配置好后点击start开始即可。有时候你可能看不到开始按钮，把鼠标放到软件边拖动一下大小，放下下界面就会显示出来。
 DirBuster不仅可以暴力猜解目录，还可以进行蜘蛛爬行。
+
+DirBuster官方网站 https://www.owasp.org/index.php/Category:OWASP_DirBuster_Project
