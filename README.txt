@@ -7,6 +7,8 @@ ARP毒化工具：Arpspoof
 网络流量分析工具：Wireshark、tcpdump
 暴力破解工具：Medusa、THC-hydra、
 WEB安全扫描工具：AppScan
+目录遍历工具；DirBuster
+Fuzz模糊测试工具：Peach
 WEB渗透工具：Burpsuite
 XSS漏洞检测工具：BruteXSS、XSSer
 二进制/源码静态扫描工具：Checkmarx、Woodpecker、codeDEX
