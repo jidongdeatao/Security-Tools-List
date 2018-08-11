@@ -12,7 +12,7 @@ Fuzz模糊测试工具：Peach
 WEB渗透工具：Burpsuite
 XSS漏洞检测工具：BruteXSS、XSSer
 二进制/源码静态扫描工具：Checkmarx、Woodpecker、codeDEX
-
+漏洞靶场：DVWA
 
 渗透流程：
 1.被动情报收集: 
