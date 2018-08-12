@@ -4,8 +4,8 @@
 漏洞扫描器：Nessus、OpenVAS、Nexpose
 ARP毒化工具：Arpspoof
 网络流量分析工具：Wireshark、tcpdump
-暴力破解工具：Medusa、THC-hydra、
-WEB安全扫描工具：AppScan、W3af、AWVS
+破解密码工具：Medusa、THC-hydra、Hashcat、
+WEB安全扫描工具：AppScan、W3af、AWVS、Webscanner
 目录遍历工具；DirBuster
 Fuzz模糊测试工具：Peach
 WEB渗透工具：Burpsuite
