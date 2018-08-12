@@ -1,5 +1,5 @@
 # Security-Tools-List
-被动情报收集工具：Google Hacking、ZoomEye、whois、nslookup、DNSDomain(这三个通过站长工具查询)
+被动情报收集工具：Shodan、Google Hacking、ZoomEye、whois、nslookup、DNSDomain(这三个通过站长工具查询)
 主动情报收集工具：Nmap、Netcat
 漏洞扫描器：Nessus、OpenVAS、Nexpose
 ARP毒化工具：Arpspoof
