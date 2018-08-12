@@ -38,5 +38,72 @@ XSS漏洞检测工具：BruteXSS、XSSer
 漏洞扫描器：Nessus、OpenVAS、Nexpose
 
 
+参考使用Kali Linux进行渗透的流程：
+GitHub：https://github.com/sysorem/Kali-Linux-Pentest-Basic
+  Phase1 Reconnaissance
+    1、Website & Server Info acquiring
+      -Server :
+      whois\host\fierce(DNS Rev)\dig\DNS transfer
+      -Server/OS fingerprint
+      port scan\Banner\p0f\Xprobe2\nmap
+      -Waf detected
+      wafw00f
+    2、Search  Engine
+      -Google Advanced
+      -Shodan
+      -Zoomeye
+    3、Google Hacking(GHDB)
+      -intext\allintext\intitle\cache\intitile\define\filetype\info\inurl\allinurl\+_*.""
+    4、Social Media Network
+      -Maltego
+    5、Undisclosed Data(Social Engine Database)
+      -QQGroup
+  Phase2 Scanning
+    1、Network traffic
+      -tcp\udp\icmp
+    2、Nmap
+      -OS detected\TCP scan\SYN scan\ACK scan\UDP scan\Timming tpl
+      -Port scan\IP scan\output
+    3、Hping3
+      -SYN Flood Attack(Denial of Service)
+    4、Nessus
+    5、whatweb
+      -Gather info of Website
+    6、DirBuster
+      -scan the exists directories or files
+    7、joomscan
+      -Joomla based sites tests
+    8、WPScan
+      -Wordpress based sites tests
+  Phase3 Gaining Access
+    1、Metasploit Framework
+      -Experiment:Hack Windows XP SP3 by MS08_067
+      -Get shell/Remote Desktop/Remote control
+    2、Sqlmap
+      -SQLi Experiment:Hack a CMS Site
+      -Get shell/dump database/Remote control
+    3、rdesktop  + hydra
+      -Forcely Brute WinXP Administrator Password
+    4、Arpspoof
+      -Experiment:Arp spoof Attack on LAN
+      -Session Injection
+    5、tcpdump + ferret + hamster
+      -Experiment:Session Injection
+    6、Ettercap
+      -Experiment:DNS Spoof(Fishing)
+    7、SET
+      -With Meterpreter
+  Phase4 Maintaining Access
+    1、Netcat
+      -Experiment:Reverse CMDshell(cmd.exe)
+    2、Crytpcat
+    3、weevely
+      -Generated Shellcode Bypassed Anti-Virus  
+      -Experiment:Break through Interception by SafetyDog
+    4、cymothoa
+      -Process Injection
+  Phase5 Pentest Report
+    1、Magictree
+    2、dradis
 
 
