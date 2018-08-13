@@ -3,7 +3,7 @@
 被动情报收集工具：Shodan、Google Hacking、ZoomEye、whois、nslookup、DNSDomain
 主动情报收集工具：Nmap、Netcat
 漏洞扫描器：Nessus、OpenVAS、Nexpose
-专用漏洞扫描器：
+专用漏洞扫描器：详见Special Vulnerability Scanner目录
 ARP毒化工具：Arpspoof
 网络流量分析工具：Wireshark、tcpdump
 破解密码工具：Medusa、THC-hydra、Hashcat、
