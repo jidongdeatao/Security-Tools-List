@@ -9,4 +9,5 @@ Nmap使用：
         
         
   Nmap的常用命令规则：
+  nmap -sS -Pn IP
   
