@@ -16,7 +16,7 @@ XSS漏洞检测工具：BruteXSS、XSSer
 二进制/源码静态扫描工具：Checkmarx、Woodpecker、codeDEX
 漏洞靶场：DVWA
 无线渗透工具：Aircrack-ng、wifiphisher
-反向连接工具：Netcat、
+反向连接工具：Netcat、Reverse Shell（Python语言）
 渗透后利用工具：Metasploit
 
 
