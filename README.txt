@@ -9,7 +9,7 @@ ARP毒化工具：Arpspoof
 网络流量分析工具：Wireshark、tcpdump
 Windows嗅探工具：Cain & Abel
 破解密码工具：Medusa、THC-hydra、Hashcat、
-WEB安全扫描工具：AppScan、W3af、AWVS、Webscanner
+WEB安全扫描工具：AppScan、W3af、AWVS、Webscanner、WAScan
 WEB扫描工具：Photon
 目录遍历工具；DirBuster
 Fuzz模糊测试工具：Peach
