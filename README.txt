@@ -1,7 +1,7 @@
 # Security-Tools-List
 渗透测试标准：PTES
 社工方法论：SocialEngineer
-被动情报收集工具：Shodan、Google Hacking、ZoomEye、whois、nslookup、DNSDomain
+被动情报收集工具：Shodan、Google Hacking、ZoomEye、whois、nslookup、DNSDomain(https://dnsdumpster.com/)
 主动情报收集工具：Nmap、Netcat、Raccoon
 漏洞扫描器：Nessus、OpenVAS、Nexpose
 专用漏洞扫描器：详见Special Vulnerability Scanner目录
